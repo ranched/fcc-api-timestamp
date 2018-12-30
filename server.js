@@ -1,6 +1,8 @@
 // server.js
 // where your node app starts
 
+const sendDate = require('./dateService');
+
 // init project
 var express = require('express');
 var app = express();
@@ -16,15 +18,7 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
 
-app.get("/api/timestamp/:date_string?", function (request, response) {
-  const urlDateString = request.params.date_string || new Date();
-  const resObj = {
-    "unix": urlDateString.getTime(),
-    "utc": urlDateString.toUTCString()
-  };
-  
-  response.send(JSON.stringify(resObj));
-});
+app.get("/api/timestamp/:date_string?", sendDate.returnDateObj );
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
